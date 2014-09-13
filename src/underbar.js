@@ -89,11 +89,19 @@ var _ = {};
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
+    var result = [];
+    _.each(array, function(item){
+      _.indexOf(result, item) === -1 ? result.push(item): null;
+    });
+    return result;
   };
 
 
   // Return the results of applying an iterator to each element.
   _.map = function(collection, iterator) {
+    var result = [];
+    _.each(collection, function(item){result.push(iterator(item));});
+    return result;
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
@@ -120,6 +128,7 @@ var _ = {};
   // Calls the method named by functionOrKey on each value in the list.
   // Note: you will nead to learn a bit about .apply to complete this.
   _.invoke = function(collection, functionOrKey, args) {
+    functionOrKey.apply(collection);
   };
 
   // Reduces an array or object to a single value by repetitively calling
@@ -136,6 +145,11 @@ var _ = {};
   //     return total + number;
   //   }, 0); // should be 6
   _.reduce = function(collection, iterator, accumulator) {
+    accumulator === undefined ? accumulator=collection[0] : null;
+    _.each(collection, function(item) {
+      accumulator = iterator(accumulator,item);
+    });
+    return accumulator;
   };
 
   // Determine if the array or object contains a given value (using `===`).
