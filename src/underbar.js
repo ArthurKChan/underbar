@@ -128,7 +128,18 @@ var _ = {};
   // Calls the method named by functionOrKey on each value in the list.
   // Note: you will nead to learn a bit about .apply to complete this.
   _.invoke = function(collection, functionOrKey, args) {
-    functionOrKey.apply(collection);
+    var result = [];
+    _.each(collection, function(item, index){
+       if(typeof functionOrKey == 'function'){
+         //Function
+         result.push(functionOrKey.apply(item, args));
+       }
+       else{
+         //Method
+         result.push(item[functionOrKey](args));
+       }
+    });
+    return result;
   };
 
   // Reduces an array or object to a single value by repetitively calling
@@ -145,10 +156,8 @@ var _ = {};
   //     return total + number;
   //   }, 0); // should be 6
   _.reduce = function(collection, iterator, accumulator) {
-    accumulator === undefined ? accumulator=collection[0] : null;
-    _.each(collection, function(item) {
-      accumulator = iterator(accumulator,item);
-    });
+    accumulator === undefined ? accumulator=collection[0] : null; 
+    _.each(collection, function(item) { accumulator = iterator(accumulator,item); });
     return accumulator;
   };
 
@@ -167,6 +176,14 @@ var _ = {};
 
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
+    return _.reduce(collection, function(status, item){
+      if(iterator === undefined){
+        return item && status;
+      }
+      else{
+        return iterator(item) ? status && true : status && false;
+      }
+    }, true);
     // TIP: Try re-using reduce() here.
   };
 
