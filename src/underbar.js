@@ -376,11 +376,39 @@ var _ = {};
   // Takes an arbitrary number of arrays and produces an array that contains
   // every item shared between all the passed-in arrays.
   _.intersection = function() {
+    var result = [];
+    for(var i=0; i<arguments[0].length; i++){
+      var itemShared = true;
+      for(var j=1; j<arguments.length; j++){
+        if(arguments[j].indexOf(arguments[0][i]) === -1){
+          itemShared = false;
+          break;
+        }
+      }
+      if(itemShared === true){
+        result.push(arguments[0][i]);
+      }
+    }
+    return result;
   };
 
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
   _.difference = function(array) {
+    var result = [];
+    for(var i=0; i<arguments[0].length; i++){
+      var uniqueToFirstArray = true;
+      for(var j=1; j<arguments.length; j++){
+        if(arguments[j].indexOf(arguments[0][i]) !== -1){
+          uniqueToFirstArray = false;
+          break;
+        }
+      }
+      if(uniqueToFirstArray === true){
+        result.push(arguments[0][i]);
+      }
+    }
+    return result;
   };
 
 
