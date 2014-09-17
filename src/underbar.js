@@ -156,7 +156,10 @@ var _ = {};
   //     return total + number;
   //   }, 0); // should be 6
   _.reduce = function(collection, iterator, accumulator) {
-    accumulator === undefined ? accumulator=collection[0] : null; 
+    if(accumulator === undefined){
+      accumulator=collection[0];
+      collection=collection.slice(1);
+    } 
     _.each(collection, function(item) { accumulator = iterator(accumulator,item); });
     return accumulator;
   };
