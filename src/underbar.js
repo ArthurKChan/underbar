@@ -425,6 +425,29 @@ var _ = {};
   //
   // See the Underbar readme for details.
   _.throttle = function(func, wait) {
+    var ready = true, queue = false, queuedArgs = [], prevAns=null;
+    return function throttledFunc(){
+      if (ready === true){
+        ready = false;
+        console.log('success');
+        //return func.apply(this, arguments);
+        setTimeout(function(){
+          ready = true;
+          if(queue === true){
+            queue = false;
+            console.log("queued call's turn");
+            return throttledFunc.apply(this, queuedArgs);
+          }
+        }, wait);
+        return prevAns = func.apply(this, arguments);
+      }
+      else{
+        console.log('fail');
+        queue = true;
+        queuedArgs = arguments;
+        return prevAns;
+      }
+    }
   };
 
 }).call(this);
