@@ -136,7 +136,7 @@ var _ = {};
        }
        else{
          //Method
-         result.push(item[functionOrKey](args));
+         result.push(item[functionOrKey].apply(item, args));
        }
     });
     return result;
